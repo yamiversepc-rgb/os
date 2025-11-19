@@ -1,0 +1,229 @@
+#include <stdio.h> 
+
+#include <string.h> 
+
+ 
+
+struct Directory { 
+
+    char name[100]; 
+
+    int fileCount; 
+
+    char files[10][100]; 
+
+} dir; 
+
+ 
+
+int main() { 
+
+    int choice; 
+
+    char fileName[100]; 
+
+ 
+
+    // Initialize directory 
+
+    strcpy(dir.name, "Root"); 
+
+    dir.fileCount = 0; 
+
+ 
+
+    printf("Single Level Directory Simulation\n"); 
+
+    printf("Directory Name: %s\n", dir.name); 
+
+ 
+
+    while (1) { 
+
+        printf("\nMenu:\n"); 
+
+        printf("1. Create File\n"); 
+
+        printf("2. Delete File\n"); 
+
+        printf("3. Search File\n"); 
+
+        printf("4. Display Files\n"); 
+
+        printf("5. Exit\n"); 
+
+        printf("Enter your choice: "); 
+
+        scanf("%d", &choice); 
+
+ 
+
+        switch (choice) { 
+
+            case 1: { 
+
+                printf("Enter file name to create: "); 
+
+                scanf("%s", fileName); 
+
+                int exists = 0; 
+
+ 
+
+                // Check if file exists 
+
+                for (int i = 0; i < dir.fileCount; i++) { 
+
+                    if (strcmp(dir.files[i], fileName) == 0) { 
+
+                        exists = 1; 
+
+                        break; 
+
+                    } 
+
+                } 
+
+ 
+
+                if (!exists) { 
+
+                    strcpy(dir.files[dir.fileCount], fileName); 
+
+                    dir.fileCount++; 
+
+                    printf("File '%s' created.\n", fileName); 
+
+                } else { 
+
+                    printf("File already exists.\n"); 
+
+                } 
+
+                break; 
+
+            } 
+
+            case 2: { 
+
+                printf("Enter file name to delete: "); 
+
+                scanf("%s", fileName); 
+
+                int found = -1; 
+
+ 
+
+                // Search for file 
+
+                for (int i = 0; i < dir.fileCount; i++) { 
+
+                    if (strcmp(dir.files[i], fileName) == 0) { 
+
+                        found = i; 
+
+                        break; 
+
+                    } 
+
+                } 
+
+ 
+
+                if (found != -1) { 
+
+                    // Shift files 
+
+                    for (int i = found; i < dir.fileCount - 1; i++) { 
+
+                        strcpy(dir.files[i], dir.files[i + 1]); 
+
+                    } 
+
+                    dir.fileCount--; 
+
+                    printf("File '%s' deleted.\n", fileName); 
+
+                } else { 
+
+                    printf("File not found.\n"); 
+
+                } 
+
+                break; 
+
+            } 
+
+            case 3: { 
+
+                printf("Enter file name to search: "); 
+
+                scanf("%s", fileName); 
+
+                int found = 0; 
+
+ 
+
+                for (int i = 0; i < dir.fileCount; i++) { 
+
+                    if (strcmp(dir.files[i], fileName) == 0) { 
+
+                        found = 1; 
+
+                        break; 
+
+                    } 
+
+                } 
+
+ 
+
+                if (found) 
+
+                    printf("File '%s' found.\n", fileName); 
+
+                else 
+
+                    printf("File not found.\n"); 
+
+                break; 
+
+            } 
+
+            case 4: { 
+
+                if (dir.fileCount == 0) { 
+
+                    printf("Directory is empty.\n"); 
+
+                } else { 
+
+                    printf("Files in directory '%s':\n", dir.name); 
+
+                    for (int i = 0; i < dir.fileCount; i++) { 
+
+                        printf("%s\n", dir.files[i]); 
+
+                    } 
+
+                } 
+
+                break; 
+
+            } 
+
+            case 5: 
+
+                printf("Exiting...\n"); 
+
+                return 0; 
+
+            default: 
+
+                printf("Invalid choice.\n"); 
+
+        } 
+
+    } 
+
+}     

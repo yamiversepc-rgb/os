@@ -1,0 +1,123 @@
+#include <stdio.h> 
+
+ 
+
+int main() { 
+
+    int n, i, time = 0, completed = 0; 
+
+    int bt[20], at[20], pr[20], rt[20]; 
+
+    int wt[20], tat[20], ct[20]; 
+
+    float avgWT = 0, avgTAT = 0; 
+
+     
+
+    printf("Enter number of processes: "); 
+
+    scanf("%d", &n); 
+
+ 
+
+    for (i = 0; i < n; i++) { 
+
+        printf("Process %d Arrival Time: ", i + 1); 
+
+        scanf("%d", &at[i]); 
+
+        printf("Process %d Burst Time: ", i + 1); 
+
+        scanf("%d", &bt[i]); 
+
+        printf("Process %d Priority (lower = higher priority): ", i + 1); 
+
+        scanf("%d", &pr[i]); 
+
+        rt[i] = bt[i];  // remaining time 
+
+    } 
+
+ 
+
+    while (completed != n) { 
+
+        int highest = -1; 
+
+        int minPriority = 9999; 
+
+ 
+
+        for (i = 0; i < n; i++) { 
+
+            if (at[i] <= time && rt[i] > 0 && pr[i] < minPriority) { 
+
+                minPriority = pr[i]; 
+
+                highest = i; 
+
+            } 
+
+        } 
+
+ 
+
+        if (highest == -1) { 
+
+            time++; 
+
+            continue; 
+
+        } 
+
+ 
+
+        rt[highest]--;  // run for 1 unit 
+
+ 
+
+        if (rt[highest] == 0) { 
+
+            completed++; 
+
+            ct[highest] = time + 1; 
+
+            tat[highest] = ct[highest] - at[highest]; 
+
+            wt[highest] = tat[highest] - bt[highest]; 
+
+        } 
+
+ 
+
+        time++; 
+
+    } 
+
+ 
+
+    printf("\nProcess\tAT\tBT\tPriority\tWT\tTAT\n"); 
+
+    for (i = 0; i < n; i++) { 
+
+        printf("P%d\t%d\t%d\t%d\t\t%d\t%d\n",  
+
+               i + 1, at[i], bt[i], pr[i], wt[i], tat[i]); 
+
+        avgWT += wt[i]; 
+
+        avgTAT += tat[i]; 
+
+    } 
+
+ 
+
+    printf("\nAverage Waiting Time = %.2f", avgWT / n); 
+
+    printf("\nAverage Turnaround Time = %.2f\n", avgTAT / n); 
+
+ 
+
+    return 0; 
+
+}   

@@ -1,0 +1,307 @@
+#include <stdio.h> 
+
+#include <string.h> 
+
+ 
+
+struct Directory { 
+
+    char userName[100]; 
+
+    int fileCount; 
+
+    char files[10][100]; 
+
+} userDirs[10]; 
+
+ 
+
+int dirCount = 0; 
+
+ 
+
+int main() { 
+
+    int choice; 
+
+    char user[100], file[100]; 
+
+ 
+
+    printf("Two-Level Directory Simulation\n"); 
+
+ 
+
+    while (1) { 
+
+        printf("\nMenu:\n"); 
+
+        printf("1. Create User Directory\n"); 
+
+        printf("2. Create File in User Directory\n"); 
+
+        printf("3. Display Files of User\n"); 
+
+        printf("4. Search File in User Directory\n"); 
+
+        printf("5. Exit\n"); 
+
+        printf("Enter your choice: "); 
+
+        scanf("%d", &choice); 
+
+ 
+
+        switch (choice) { 
+
+            case 1: { 
+
+                printf("Enter user name: "); 
+
+                scanf("%s", user); 
+
+                int exists = 0; 
+
+ 
+
+                for (int i = 0; i < dirCount; i++) { 
+
+                    if (strcmp(userDirs[i].userName, user) == 0) { 
+
+                        exists = 1; 
+
+                        break; 
+
+                    } 
+
+                } 
+
+ 
+
+                if (!exists) { 
+
+                    strcpy(userDirs[dirCount].userName, user); 
+
+                    userDirs[dirCount].fileCount = 0; 
+
+                    dirCount++; 
+
+                    printf("User directory '%s' created.\n", user); 
+
+                } else { 
+
+                    printf("User directory already exists.\n"); 
+
+                } 
+
+                break; 
+
+            } 
+
+ 
+
+            case 2: { 
+
+                printf("Enter user name: "); 
+
+                scanf("%s", user); 
+
+                int found = -1; 
+
+ 
+
+                for (int i = 0; i < dirCount; i++) { 
+
+                    if (strcmp(userDirs[i].userName, user) == 0) { 
+
+                        found = i; 
+
+                        break; 
+
+                    } 
+
+                } 
+
+ 
+
+                if (found != -1) { 
+
+                    printf("Enter file name: "); 
+
+                    scanf("%s", file); 
+
+ 
+
+                    int fileExists = 0; 
+
+                    for (int j = 0; j < userDirs[found].fileCount; j++) { 
+
+                        if (strcmp(userDirs[found].files[j], file) == 0) { 
+
+                            fileExists = 1; 
+
+                            break; 
+
+                        } 
+
+                    } 
+
+ 
+
+                    if (!fileExists) { 
+
+                        strcpy(userDirs[found].files[userDirs[found].fileCount], file); 
+
+                        userDirs[found].fileCount++; 
+
+                        printf("File '%s' added to user '%s'.\n", file, user); 
+
+                    } else { 
+
+                        printf("File already exists.\n"); 
+
+                    } 
+
+                } else { 
+
+                    printf("User not found.\n"); 
+
+                } 
+
+                break; 
+
+            } 
+
+ 
+
+            case 3: { 
+
+                printf("Enter user name: "); 
+
+                scanf("%s", user); 
+
+                int found = -1; 
+
+ 
+
+                for (int i = 0; i < dirCount; i++) { 
+
+                    if (strcmp(userDirs[i].userName, user) == 0) { 
+
+                        found = i; 
+
+                        break; 
+
+                    } 
+
+                } 
+
+ 
+
+                if (found != -1) { 
+
+                    printf("Files of user '%s':\n", user); 
+
+                    for (int j = 0; j < userDirs[found].fileCount; j++) { 
+
+                        printf("%s\n", userDirs[found].files[j]); 
+
+                    } 
+
+                } else { 
+
+                    printf("User not found.\n"); 
+
+                } 
+
+                break; 
+
+            } 
+
+ 
+
+            case 4: { 
+
+                printf("Enter user name: "); 
+
+                scanf("%s", user); 
+
+                printf("Enter file name: "); 
+
+                scanf("%s", file); 
+
+                int found = -1; 
+
+ 
+
+                for (int i = 0; i < dirCount; i++) { 
+
+                    if (strcmp(userDirs[i].userName, user) == 0) { 
+
+                        found = i; 
+
+                        break; 
+
+                    } 
+
+                } 
+
+ 
+
+                if (found != -1) { 
+
+                    int fileFound = 0; 
+
+                    for (int j = 0; j < userDirs[found].fileCount; j++) { 
+
+                        if (strcmp(userDirs[found].files[j], file) == 0) { 
+
+                            fileFound = 1; 
+
+                            break; 
+
+                        } 
+
+                    } 
+
+ 
+
+                    if (fileFound) { 
+
+                        printf("File '%s' found in user '%s' directory.\n", file, user); 
+
+                    } else { 
+
+                        printf("File not found.\n"); 
+
+                    } 
+
+                } else { 
+
+                    printf("User not found.\n"); 
+
+                } 
+
+                break; 
+
+            } 
+
+ 
+
+            case 5: 
+
+                printf("Exiting...\n"); 
+
+                return 0; 
+
+ 
+
+            default: 
+
+                printf("Invalid choice.\n"); 
+
+        } 
+
+    } 
+
+} 
